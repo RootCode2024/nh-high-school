@@ -4,19 +4,23 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('title', 'NH HIGH SCHOOL')</title>
+    <link rel="shortcut icon" href="{{ asset('assets/logo.png')}}" type="image/x-icon">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <script src="https://cdn.tailwindcss.com"></script>
+    {{-- @livewireStyles --}}
 </head>
 <body>
     <header>
         @include('components.navbar')
     </header>
-
-    <main class="container">
+    <main>
         @yield('content')
     </main>
 
     <footer>
         @include('components.footer')
     </footer>
+    {{-- @livewireScripts --}}
 </body>
 </html>
