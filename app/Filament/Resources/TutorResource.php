@@ -10,14 +10,15 @@ use Filament\Tables\Table;
 use Illuminate\Support\Str;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Select;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\TutorResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\TutorResource\RelationManagers;
-use Filament\Tables\Columns\ImageColumn;
 
 class TutorResource extends Resource
 {
@@ -114,35 +115,40 @@ class TutorResource extends Resource
             ->columns([
                 ImageColumn::make('profile-picture')
                     ->label('Photo de profil'),
-                Tables\Columns\TextColumn::make('first_name')
+
+                TextColumn::make('first_name')
                     ->label('Nom et Prénom (s)')
                     ->formatStateUsing(fn (Tutor $record): string => "{$record->first_name} {$record->last_name}")
                     ->sortable()
                     ->searchable(),
 
-                Tables\Columns\TextColumn::make('phone')
+                TextColumn::make('phone')
                     ->label('Téléphone')
                     ->searchable()
                     ->sortable(),
 
-                Tables\Columns\TextColumn::make('email')
+                TextColumn::make('email')
                     ->label('Email')
                     ->searchable()
                     ->sortable(),
 
-                Tables\Columns\TextColumn::make('work')
+                TextColumn::make('work')
                     ->label('Profession')
                     ->searchable()
                     ->sortable(),
 
-                Tables\Columns\TextColumn::make('students')
+                TextColumn::make('students')
                     ->label('Enfants')
-                    ->formatStateUsing(fn (int $state): string => "$state enfant(s)")
-                    ->sortable()
-                    ->searchable(),
+                    ->badge()
+                    ->getStateUsing(fn ($record) => $record->students->count())
+                    ->color('success')
+                    ->url(fn ($record) => route('filament.admin.resources.students.index', ['tableFilters' => ['tutor_id' => ['value' => $record->id]]]))
+                
             ])
             ->filters([
-                //
+                Tables\Filters\Filter::make('has_students')
+                    ->label('Avec des enfants')
+                    ->query(fn (Builder $query) => $query->has('students')),
             ])
             ->actions([
                 Tables\Actions\EditAction::make()->label(''),
@@ -170,4 +176,10 @@ class TutorResource extends Resource
             'edit' => Pages\EditTutor::route('/{record}/edit'),
         ];
     }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->with('students');
+    }
+
 }

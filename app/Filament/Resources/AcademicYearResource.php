@@ -40,6 +40,20 @@ class AcademicYearResource extends Resource
                     ->required()
                     ->maxLength(55),
 
+                DatePicker::make('start_date')
+                    ->label('Date de debut')
+                    ->default(now())
+                    ->displayFormat('d F Y')
+                    ->native(false)
+                    ->required(),
+
+                DatePicker::make('end_date')
+                    ->label('Date de fin')
+                    ->default(now()->addYear())
+                    ->displayFormat('d F Y')
+                    ->native(false)
+                    ->required(),
+
                 Toggle::make('status')
                     ->label('Status')
                     ->default(true)
@@ -49,20 +63,7 @@ class AcademicYearResource extends Resource
                     ->offIcon('heroicon-o-x-mark')
                     ->inline(false)
                     ->required(),
-
-                DatePicker::make('start_date')
-                    ->label('Date de debut')
-                    ->default(now())
-                    ->native(false)
-                    ->required(),
-
-                DatePicker::make('end_date')
-                    ->label('Date de fin')
-                    ->default(now()->addYear())
-                    ->native(false)
-                    ->required(),
-
-            ]);
+            ])->columns(3);
     }
 
     public static function table(Table $table): Table

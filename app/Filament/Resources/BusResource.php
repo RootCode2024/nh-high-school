@@ -12,6 +12,7 @@ use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -48,7 +49,7 @@ class BusResource extends Resource
                             ->required(),
                     ])->columns(3),
                 TextInput::make('route')
-                    ->label('Route')
+                    ->label('Itinéraire')
                     ->required(),
                 Section::make('')
                     ->schema([
@@ -81,7 +82,7 @@ class BusResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('')
             ])
             ->filters([
                 //

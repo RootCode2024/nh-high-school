@@ -25,8 +25,9 @@ return new class extends Migration
             $table->foreignIdFor(AcademicYear::class)->references('id')->on('academic_years');
             $table->foreignIdFor(Period::class)->references('id')->on('periods');
             $table->foreignIdFor(ExamType::class)->references('id')->on('exam_types');
-            $table->unsignedTinyInteger('note');
-            $table->integer('max_note')->default(20);
+            $table->date('day');
+            $table->decimal('note');
+            $table->decimal('max_note')->default(20);
             $table->text('comment')->nullable();
             $table->timestamps();
             $table->softDeletes();

@@ -29,6 +29,7 @@ use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
 use App\Filament\Resources\StudentResource\Pages;
 use Filament\Forms\Components\Grid;
+use Illuminate\Support\Facades\Auth;
 
 class StudentResource extends Resource
 {
@@ -290,7 +291,7 @@ class StudentResource extends Resource
                 ])
                 ->columns(3),
 
-            ]);
+                    ]);
     }
 
     public static function table(Table $table): Table
@@ -298,7 +299,9 @@ class StudentResource extends Resource
         return $table
             ->columns([
                 ImageColumn::make('profile-picture')
-                    ->label('Image'),
+                    ->circular()
+                    ->defaultImageUrl('/assets/default-profile.png')
+                    ->label('Photo'),
                 TextColumn::make('full_name')
                     ->label('Nom et Prénom (s)')
                     ->sortable()
@@ -326,7 +329,15 @@ class StudentResource extends Resource
                     ->trueIcon('heroicon-o-check-circle')
                     ->falseIcon('heroicon-o-x-circle'),
             ])
-            ->filters([ /* Define filters here */ ])
+            ->filters([
+                Tables\Filters\SelectFilter::make('tutor_id')
+                    ->label('Tuteur')
+                    ->options(
+                        Tutor::all()->mapWithKeys(function ($tutor) {
+                            return [$tutor->id => "{$tutor->first_name} {$tutor->last_name}"];
+                        })
+                    ),
+            ])
             ->actions([
                 Tables\Actions\EditAction::make()->label(''),
                 Tables\Actions\DeleteAction::make()->label(''),

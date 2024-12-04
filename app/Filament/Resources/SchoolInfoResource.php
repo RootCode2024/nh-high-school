@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\SchoolInfoResource\Pages;
 use App\Filament\Resources\SchoolInfoResource\RelationManagers;
 use Filament\Forms\Components\FileUpload;
+use Filament\Tables\Columns\ImageColumn;
 
 class SchoolInfoResource extends Resource
 {
@@ -143,7 +144,7 @@ class SchoolInfoResource extends Resource
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: false),
                 TextColumn::make('phone')
-                    ->label('T l phone')
+                    ->label('Téléphone')
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: false),
                 TextColumn::make('email')
@@ -153,15 +154,14 @@ class SchoolInfoResource extends Resource
                 TextColumn::make('website')
                     ->label('Site web')
                     ->searchable()
-                    ->toggleable(isToggledHiddenByDefault: false),
-                TextColumn::make('logo')
+                    ->toggleable(isToggledHiddenByDefault: true),
+                ImageColumn::make('logo')
                     ->label('Logo')
-                    ->searchable()
                     ->toggleable(isToggledHiddenByDefault: false),
                 TextColumn::make('favicon')
                     ->label('Favicon')
                     ->searchable()
-                    ->toggleable(isToggledHiddenByDefault: false),
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('director_name')
                     ->label('Nom du directeur')
                     ->searchable()
@@ -169,29 +169,29 @@ class SchoolInfoResource extends Resource
                 TextColumn::make('director_signature')
                     ->label('Signature du directeur')
                     ->searchable()
-                    ->toggleable(isToggledHiddenByDefault: false),
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('devise')
                     ->label('Devise')
                     ->searchable()
-                    ->toggleable(isToggledHiddenByDefault: false),
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('facebook')
                     ->label('Facebook')
                     ->searchable()
-                    ->toggleable(isToggledHiddenByDefault: false),
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('twitter')
                     ->label('Twitter')
                     ->searchable()
-                    ->toggleable(isToggledHiddenByDefault: false),
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('instagram')
                     ->label('Instagram')
                     ->searchable()
-                    ->toggleable(isToggledHiddenByDefault: false),
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()->label(''),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

@@ -20,6 +20,7 @@ use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\TimeTableResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\TimeTableResource\RelationManagers;
+use Filament\Tables\Columns\TextColumn;
 
 class TimeTableResource extends Resource
 {
@@ -132,6 +133,7 @@ class TimeTableResource extends Resource
                                     ->required(),
                                 TimePicker::make('start_time')
                                     ->label('Heure de debut')
+                                    ->minutesStep(10)
                                     ->seconds(false)
                                     ->required(),
                                 TimePicker::make('end_time')
@@ -148,7 +150,7 @@ class TimeTableResource extends Resource
     {
         return $table
             ->columns([
-                //
+                // TextColumn::make('')
             ])
             ->filters([
                 //
