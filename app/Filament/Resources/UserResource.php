@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use Carbon\Carbon;
 use Filament\Forms;
 use App\Models\User;
 use Filament\Tables;
@@ -66,7 +67,11 @@ class UserResource extends Resource
                     ->searchable(),
                 TextColumn::make('email_verified_at')
                     ->label('Adresse mail Vérifiée')
-                    ->dateTime()
+                    ->formatStateUsing(
+                        function ($state) {
+                            return $state ? Carbon::parse($state)->diffForHumans() : null;
+                        }
+                    )
                     ->sortable(),
                 TextColumn::make('created_at')
                     ->label('Créé le')

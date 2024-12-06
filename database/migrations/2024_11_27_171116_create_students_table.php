@@ -24,12 +24,17 @@ return new class extends Migration
             $table->string('matricule')->unique();
             $table->string('first_name');
             $table->string('last_name');
+            $table->enum('gender', ['male', 'female']);
             $table->string('email')->unique();
             $table->string('phone')->unique();
+            $table->string('address');
+            $table->enum('blood_group', ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'])->nullable();
+            $table->enum('religion', ['muslim', 'christian', 'other'])->nullable();
+            $table->enum('scholarship', ['none', 'partial', 'full'])->default('none');
             $table->date('date_of_birth');
             $table->string('cni_number')->nullable();
             $table->boolean('status')->default(true);
-            $table->string('profile-picture')->nullable();
+            $table->string('profile_picture')->nullable();
             $table->string('assurance_number')->nullable();
             $table->boolean('enable_for_canteen')->default(false);
             $table->string('alergies')->nullable();

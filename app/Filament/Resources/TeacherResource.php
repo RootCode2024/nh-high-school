@@ -11,10 +11,13 @@ use Filament\Tables\Table;
 use Illuminate\Support\Str;
 use App\Models\AcademicYear;
 use Filament\Resources\Resource;
+use Illuminate\Support\Facades\DB;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\Section;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
 use Illuminate\Database\Eloquent\Builder;
@@ -66,9 +69,12 @@ class TeacherResource extends Resource
                     ->schema([
                         Section::make()
                             ->schema([
-                                FileUpload::make('profile-picture')
+                                FileUpload::make('profile_picture')
                                     ->label('Photo de profil')
                                     ->image()
+                                    ->disk('public')
+                                    ->directory('teachers')
+                                    ->downloadable()
                                     ->nullable(),
                             ])->columnSpan(1),
                         Section::make()
@@ -157,13 +163,37 @@ class TeacherResource extends Resource
     {
         return $table
             ->columns([
-                //
+                ImageColumn::make('profile_picture')
+                    ->circular()
+                    ->defaultImageUrl('/assets/default-profile.png')
+                    ->label('Photo'),
+                TextColumn::make('full_name')
+                    ->label('Nom et Prénom (s)')
+                    ->sortable()
+                    ->searchable(query: function ($query, $search) {
+                        $query->where(DB::raw("CONCAT(first_name, ' ', last_name)"), 'like', "%{$search}%");
+                    })
+                    ->formatStateUsing(fn (string $state): string => "{$state}"),
+                TextColumn::make('email')
+                    ->label('Email')
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make('phone')
+                    ->label('Téléphone')
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make('current_salary')
+                    ->label('Salaire actuel')
+                    ->sortable()
+                    ->searchable()
+                    ->formatStateUsing(fn (string $state): string => number_format((int) $state, 0, '', ' ') . ' CFA')
             ])
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()->label(''),
+                Tables\Actions\DeleteAction::make()->label(''),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

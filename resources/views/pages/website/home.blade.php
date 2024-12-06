@@ -4,7 +4,7 @@
 
 @section('content')
 <!-- Section Héro -->
-<section class="bg-[#1D1D1D] text-white relative">
+<section class="text-white relative">
     <div class="flex flex-col md:flex-row items-center justify-between h-screen max-w-7xl mx-auto px-6 md:px-12">
         <!-- Contenu à gauche -->
         <div class="md:w-1/2">

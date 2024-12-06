@@ -2,13 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Building extends Model
+class ClasseLevel extends Model
 {
-    use SoftDeletes, HasFactory;
+    use SoftDeletes;
 
     protected $guarded = [];
 }

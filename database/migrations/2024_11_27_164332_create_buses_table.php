@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('buses', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->string('bus_type');
             $table->string('bus_number');
             $table->string('driver_fullname');
             $table->string('helper_fullname');
@@ -25,7 +27,7 @@ return new class extends Migration
 
             $table->string('route');
             $table->unsignedSmallInteger('capacity');
-            $table->enum('status', ['active', 'inactive']);
+            $table->boolean('status')->default(1);
 
             $table->timestamps();
             $table->softDeletes();

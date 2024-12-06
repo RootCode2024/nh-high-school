@@ -82,13 +82,25 @@ class BusResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('')
+                TextColumn::make('bus_number')
+                    ->label('Numéro de bus')
+                    ->sortable(),
+                TextColumn::make('capacity')
+                    ->label('Capacité')
+                    ->sortable(),
+                TextColumn::make('driver_fullname')
+                    ->label('Nom du chauffeur')
+                    ->sortable(),
+                TextColumn::make('driver_phone')
+                    ->label('Téléphone du chauffeur')
+                    ->sortable(),
             ])
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()->label(''),
+                Tables\Actions\DeleteAction::make()->label(''),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('classes', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('level');
+            $table->enum('level', ['Sixieme', 'Cinqieme', 'Quatrieme', 'Troisieme', 'Seconde', 'Première', 'Terminale'])->default('Sixieme');
             $table->foreignIdFor(Building::class)->references('id')->on('buildings');
             $table->text('description')->nullable();
             $table->timestamps();

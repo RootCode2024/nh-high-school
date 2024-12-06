@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use Illuminate\Support\Facades\DB;
 use App\Models\Bus;
 use Filament\Forms;
 use App\Models\Club;
@@ -16,9 +17,12 @@ use Filament\Tables\Table;
 use Illuminate\Support\Str;
 use App\Models\AcademicYear;
 use Filament\Resources\Resource;
+use Filament\Forms\Components\Grid;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Toggle;
+use Filament\Forms\Components\Builder;
 use Filament\Forms\Components\Section;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
@@ -28,8 +32,6 @@ use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
 use App\Filament\Resources\StudentResource\Pages;
-use Filament\Forms\Components\Grid;
-use Illuminate\Support\Facades\Auth;
 
 class StudentResource extends Resource
 {
@@ -72,9 +74,12 @@ class StudentResource extends Resource
                     ->schema([
                         Section::make()
                             ->schema([
-                                FileUpload::make('profile-picture')
+                                FileUpload::make('profile_picture')
                                     ->label('Photo de profil')
                                     ->image()
+                                    ->disk('public')
+                                    ->directory('students')
+                                    ->downloadable()
                                     ->nullable(),
                             ])->columnSpan(1),
                         Section::make()
@@ -147,9 +152,12 @@ class StudentResource extends Resource
                                             ->label('Nationalité')
                                             ->options(Country::all()->pluck('nationality', 'id'))
                                             ->required(),
-                                        FileUpload::make('profile-picture')
+                                        FileUpload::make('profile_picture')
                                             ->label('Photo de profil')
                                             ->image()
+                                            ->disk('public')
+                                            ->directory('students')
+                                            ->downloadable()
                                             ->nullable(),
                                     ])
                                     ->createOptionUsing(function ($data) {
@@ -165,7 +173,7 @@ class StudentResource extends Resource
                                             'date_of_birth' => $data['date_of_birth'],
                                             'place_of_birth_id' => $data['place_of_birth_id'],
                                             'nationality_id' => $data['nationality_id'],
-                                            'profile_picture' => $data['profile-picture'] ?? null,
+                                            'profile_picture' => $data['profile_picture'] ?? null,
                                         ]);
                                         return $tutor->id;
                                     })
@@ -211,7 +219,7 @@ class StudentResource extends Resource
                         ->required(),
                     TextInput::make('phone')
                         ->label('Téléphone')
-                        ->unique()
+                        ->unique(ignoreRecord: true)
                         ->required(),
                 ])
                 ->columns(3),
@@ -298,14 +306,16 @@ class StudentResource extends Resource
     {
         return $table
             ->columns([
-                ImageColumn::make('profile-picture')
+                ImageColumn::make('profile_picture')
                     ->circular()
                     ->defaultImageUrl('/assets/default-profile.png')
                     ->label('Photo'),
                 TextColumn::make('full_name')
                     ->label('Nom et Prénom (s)')
                     ->sortable()
-                    ->searchable()
+                    ->searchable(query: function ($query, $search) {
+                        $query->where(DB::raw("CONCAT(first_name, ' ', last_name)"), 'like', "%{$search}%");
+                    })
                     ->formatStateUsing(fn (string $state): string => "{$state}"),
 
                 TextColumn::make('matricule')

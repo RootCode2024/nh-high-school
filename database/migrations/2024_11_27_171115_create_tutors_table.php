@@ -15,11 +15,13 @@ return new class extends Migration
         Schema::create('tutors', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid');
+            $table->enum('gender', ['male', 'female']);
             $table->string('first_name');
             $table->string('last_name');
-            $table->string('phone')->unique();
+            $table->string('phone');
+            $table->string('address')->nullable();
             $table->string('email')->unique();
-            $table->string('cni_number')->unique();
+            $table->string('cni_number')->nullable();
             $table->string('work')->nullable();
             $table->enum('type', ['father', 'mother', 'sister', 'brother', 'uncle', 'aunt', 'grand_father', 'grand_mother']);
             $table->date('date_of_birth');

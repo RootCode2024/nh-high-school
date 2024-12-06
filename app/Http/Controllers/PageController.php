@@ -2,15 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Club;
+use App\Models\User;
+use App\Models\Tutor;
+use App\Models\Classe;
+use App\Models\Student;
 use App\Models\SchoolInfo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PageController extends Controller
 {
     public function homePage()
     {
         $schoolInfo = SchoolInfo::first();
-        return view('pages.home', compact('schoolInfo'));
+        return view('pages.website.home', compact('schoolInfo'));
     }
 
     public function aboutPage() {
@@ -29,7 +35,5 @@ class PageController extends Controller
         return view('pages.contact');
     }
 
-    public function login() {
-        return view('auth.login');
-    }
+
 }

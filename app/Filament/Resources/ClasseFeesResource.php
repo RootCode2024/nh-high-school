@@ -34,53 +34,43 @@ class ClasseFeesResource extends Resource
     {
         return $form
             ->schema([
-                Repeater::make('classesFees')
+                Section::make('Informations principales')
                     ->schema([
-                        Section::make('Informations principales')
-                            ->schema([
-                                Select::make('academic_year_id')
-                                    ->options(\App\Models\AcademicYear::pluck('name', 'id'))
-                                    ->default(fn (): ?int => AcademicYear::orderByDesc('created_at')->first()?->id ?? null)
-                                    ->label('Année scolaire')
-                                    ->required(),
+                        Select::make('classe_id')
+                            ->label('Classe')
+                            ->options(\App\Models\Classe::pluck('name', 'id'))
+                            ->searchable()
+                            ->required(),
+                ])->columns(1),
 
-                                Select::make('classe_id')
-                                    ->label('Classe')
-                                    ->options(\App\Models\Classe::pluck('level', 'id'))
-                                    ->searchable()
-                                    ->required(),
-                            ])->columns(2),
+                Section::make('Informations supplémentaires')
+                    ->schema([
+                        TextInput::make('school_fee_amount')
+                            ->label('Frais scolaire')
+                            ->suffix('F CFA')
+                            ->numeric()
+                            ->minValue(0)
+                            ->maxValue(1000000)
+                            ->required(),
 
-                        Section::make('Informations supplémentaires')
-                            ->schema([
-                                TextInput::make('school_fee_amount')
-                                    ->label('Frais scolaire')
-                                    ->suffix('F CFA')
-                                    ->numeric()
-                                    ->minValue(0)
-                                    ->maxValue(1000000)
-                                    ->required(),
+                        TextInput::make('transport_fee_amount')
+                            ->label('Frais de transport')
+                            ->suffix('F CFA')
+                            ->numeric()
+                            ->minValue(0)
+                            ->maxValue(1000000)
+                            ->required(),
 
-                                TextInput::make('transport_fee_amount')
-                                    ->label('Frais de transport')
-                                    ->suffix('F CFA')
-                                    ->numeric()
-                                    ->minValue(0)
-                                    ->maxValue(1000000)
-                                    ->required(),
-
-                                TextInput::make('registration_fee_amount')
-                                    ->label('Frais d\'inscription')
-                                    ->suffix('F CFA')
-                                    ->numeric()
-                                    ->minValue(0)
-                                    ->maxValue(1000000)
-                                    ->required(),
-                            ])->columns(3),
-                    ])
-                    ->reorderableWithButtons()
-                    ->cloneable()
-            ])->columns(1);
+                        TextInput::make('registration_fee_amount')
+                            ->label('Frais d\'inscription')
+                            ->suffix('F CFA')
+                            ->numeric()
+                            ->minValue(0)
+                            ->maxValue(1000000)
+                            ->required(),
+                ])->columns(3),
+            ])
+            ->columns(1);
     }
 
 
@@ -88,8 +78,6 @@ class ClasseFeesResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('academic_year.name')
-                    ->label('Année scolaire'),
                 TextColumn::make('classe.level')
                     ->label('Classe'),
                 TextColumn::make('school_fee_amount')
@@ -100,9 +88,6 @@ class ClasseFeesResource extends Resource
                     ->label('Frais d\'inscription'),
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('academic_year_id')
-                    ->label('Année scolaire')
-                    ->relationship('academic_year', 'name'),
                 Tables\Filters\SelectFilter::make('classe_id')
                     ->label('Classe')
                     ->relationship('classe', 'name'),

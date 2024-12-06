@@ -61,7 +61,7 @@ class ClasseResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('level')
+                TextColumn::make('name')
                     ->label('Classe')
                     ->searchable()
                     ->sortable(),

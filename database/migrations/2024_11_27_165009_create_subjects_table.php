@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('code');
-            $table->enum('category', ['science', 'litterature', 'sport', 'art']);
+            $table->enum('category', ['science', 'literature', 'sport', 'art']);
             $table->text('description')->nullable();
             $table->timestamps();
             $table->softDeletes();

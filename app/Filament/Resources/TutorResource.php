@@ -105,6 +105,9 @@ class TutorResource extends Resource
                 FileUpload::make('profile_picture')
                     ->label('Photo de profil')
                     ->image()
+                    ->disk('public')
+                    ->directory('tutors')
+                    ->downloadable()
                     ->nullable(),
             ]);
     }
@@ -113,8 +116,10 @@ class TutorResource extends Resource
     {
         return $table
             ->columns([
-                ImageColumn::make('profile-picture')
-                    ->label('Photo de profil'),
+                ImageColumn::make('profile_picture')
+                    ->circular()
+                    ->defaultImageUrl('/assets/default-profile.png')
+                    ->label('Profil'),
 
                 TextColumn::make('first_name')
                     ->label('Nom et Prénom (s)')
@@ -134,6 +139,7 @@ class TutorResource extends Resource
 
                 TextColumn::make('work')
                     ->label('Profession')
+                    ->default('--------')
                     ->searchable()
                     ->sortable(),
 

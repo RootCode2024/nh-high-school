@@ -36,10 +36,7 @@ class CountryResource extends Resource
                     ->required(),
                 TextInput::make('nationality')
                     ->label('Nationalité')
-                    ->required(),
-                TextInput::make('code')
-                    ->label('Code')
-                    ->nullable()
+                    ->required()
             ]);
     }
 
@@ -53,10 +50,6 @@ class CountryResource extends Resource
                     ->sortable(),
                 TextColumn::make('nationality')
                     ->label('Nationalité')
-                    ->searchable()
-                    ->sortable(),
-                TextColumn::make('code')
-                    ->label('Code')
                     ->searchable()
                     ->sortable()
             ])

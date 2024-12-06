@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('teachers', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(AcademicYear::class)->references('id')->on('academic_years');
             $table->uuid('uuid');
+            $table->enum('gender', ['male', 'female']);
             $table->string('first_name');
             $table->string('last_name');
             $table->string('phone')->unique();

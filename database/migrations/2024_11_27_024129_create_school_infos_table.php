@@ -17,11 +17,9 @@ return new class extends Migration
             $table->string('address');
             $table->string('phone');
             $table->string('email');
-            $table->string('website')->nullable();
             $table->string('logo');
             $table->string('favicon')->nullable();
             $table->string('director_name');
-            $table->string('director_signature')->nullable();
             $table->string('devise')->nullable();
             $table->text('small_description');
             $table->longText('long_description');

@@ -2,6 +2,7 @@
 
 use App\Models\Classe;
 use App\Models\AcademicYear;
+use App\Models\ClasseLevel;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -15,8 +16,7 @@ return new class extends Migration
     {
         Schema::create('classes_fees', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(AcademicYear::class)->references('id')->on('academic_years');
-            $table->foreignIdFor(Classe::class)->references('id')->on('classes');
+            $table->foreignIdFor(ClasseLevel::class)->references('id')->on('classe_levels');
             $table->unsignedBigInteger('school_fee_amount');
             $table->unsignedBigInteger('transport_fee_amount');
             $table->unsignedBigInteger('registration_fee_amount');
