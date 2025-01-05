@@ -20,20 +20,18 @@ class PageController extends Controller
     }
 
     public function aboutPage() {
-        return view('pages.about');
+        return view('pages.website.about');
     }
 
     public function programmesPage() {
-        return view('pages.programmes');
+        return view('pages.website.programmes');
     }
 
     public function blogPage() {
-        return view('pages.blog');
+        return view('pages.website.blog');
     }
 
     public function contactPage() {
-        return view('pages.contact');
+        return view('pages.website.contact');
     }
-
-
 }

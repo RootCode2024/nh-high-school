@@ -11,4 +11,9 @@ class Subject extends Model
     use SoftDeletes, HasFactory;
 
     protected $guarded = [];
+
+    public function timeTables()
+    {
+        return $this->hasMany(TimeTable::class);
+    }
 }

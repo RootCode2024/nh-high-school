@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -15,6 +16,11 @@ class Student extends Model
     public function getFullNameAttribute(): string
     {
         return $this->first_name . ' ' . strtoupper($this->last_name);
+    }
+
+    public function getFormattedBirthDateAttribute()
+    {
+        return Carbon::parse($this->birth_date)->translatedFormat('d F Y');
     }
 
     public function place_of_birth()

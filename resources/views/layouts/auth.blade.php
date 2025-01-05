@@ -8,12 +8,13 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script src="https://cdn.tailwindcss.com"></script>
-    {{-- @livewireStyles --}}
 </head>
-<body>
-    <main>
-        @yield('content')
-    </main>
-    {{-- @livewireScripts --}}
+<body class="flex items-center justify-center min-h-screen bg-gray-100">
+    <div class="w-full max-w-2xl mx-auto overflow-hidden">
+        <main class="p-6">
+            @yield('content')
+        </main>
+    </div>
 </body>
 </html>
+

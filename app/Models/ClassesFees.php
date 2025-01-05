@@ -11,7 +11,7 @@ class ClassesFees extends Model
 
     protected $guarded = [];
 
-
+    protected $table = 'classes_fees';
 
     public function academic_year()
     {

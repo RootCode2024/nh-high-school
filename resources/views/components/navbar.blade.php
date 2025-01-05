@@ -51,7 +51,7 @@
     </ul>
     @auth
     <div class="py-2 px-6 flex items-center sticky top-0 left-0 z-10">
-    
+
         <ul class="ml-auto flex items-center">
             <!-- Profile Dropdown -->
             <li x-data="{ open: false }" class="ml-3 relative">
@@ -66,8 +66,12 @@
                     <div class="p-2 md:block text-left">
                         <h2 class="text-sm font-semibold text-gray-800">{{ auth()->user()->name }}</h2>
                         <p class="text-xs text-gray-500">
-                            @if (auth()->user()->roles === 'student')
+                            @if (auth()->user()->role === 'student')
                                 ETUDIANT
+                            @elseif (auth()->user()->role === 'teacher')
+                                PROFESSEUR
+                            @elseif (auth()->user()->role === 'tutor')
+                                TUTEUR
                             @endif
                         </p>
                     </div>
@@ -75,7 +79,19 @@
                 <!-- Dropdown Menu -->
                 <ul x-show="open" @click.away="open = false" class="dropdown-menu shadow-md shadow-black/5 z-30 absolute right-0 mt-2 w-48 bg-white rounded-md border border-gray-100">
                     <li>
-                        <a href="{{ route('student.dashboard') }}" class="py-2 px-4 flex items-center hover:bg-gray-50">
+                        @php
+                            $role = auth()->user()->role;
+                            if ($role === 'teacher') {
+                                $route = 'teacher.dashboard';
+                            }
+                            elseif ($role === 'student') {
+                                $route = 'student.dashboard';
+                            }
+                            elseif ($role === 'tutor') {
+                                $route = 'parent.dashboard';
+                            }
+                        @endphp
+                        <a href="{{ route($route) }}" class="py-2 px-4 flex items-center hover:bg-gray-50">
                             <svg class="w-5 h-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M5.121 17.804A9.956 9.956 0 0112 15c2.623 0 5.008 1.007 6.879 2.804M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                             </svg>
@@ -113,9 +129,9 @@
                 </ul>
             </li>
         </ul>
-        
+
     </div>
-    
+
     @endauth
 
 

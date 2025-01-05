@@ -34,7 +34,12 @@ class TimeTable extends Model
 
     public function subject()
     {
-        return $this->hasMany(Subject::class);
+        return $this->belongsTo(Subject::class);
+    }
+
+    public function matiere($classe_id)
+    {
+        return Subject::where('id', $classe_id)->firstOrFail();
     }
 
     public function period()

@@ -9,9 +9,9 @@ use Illuminate\Support\Facades\Auth;
 class AuthController extends Controller
 {
     public function login() {
-        if (Auth::user())
+        if (auth()->check())
         {
-            return redirect('/dashboard');
+            return redirect()->route('student.dashboard');
         }
         else
         {
@@ -34,7 +34,19 @@ class AuthController extends Controller
             $request->session()->regenerate();
 
             // Redirection après succès
-            return redirect()->intended('/dashboard')->with('success', 'Connexion réussie !');
+
+            if (auth()->user()->role === 'student')
+            {
+                return redirect()->intended('/student/dashboard')->with('success', 'Connexion réussie !');
+            }
+            elseif (auth()->user()->role === 'teacher')
+            {
+                return redirect()->intended('/teacher/dashboard')->with('success', 'Connexion réussie !');
+            }
+            elseif (auth()->user()->role === 'tutor')
+            {
+                return redirect()->intended('/parent/dashboard')->with('success', 'Connexion réussie !');
+            }
         }
 
         // Retour en cas d'échec de l'authentification
